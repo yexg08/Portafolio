@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+    <div class="cursor"></div>
+    <header>
+        <nav>
+            <div class="logo">
+                <span>Dev</span>Portfolio
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio" class="active">Inicio</a></li>
+                <li><a href="#sobre-mi">Sobre Mí</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-content">
+                <h1 class="animate-text">Hola, soy <span class="highlight">Santiago</span></h1>
+                <h2 class="animate-text delay-1">Desarrollador Frontend</h2>
+                <p class="animate-text delay-2">Creando experiencias web únicas y memorables</p>
+                <div class="hero-buttons animate-text delay-3">
+                    <a href="#proyectos" class="btn primary">Ver proyectos</a>
+                    <a href="#contacto" class="btn secondary">Contáctame</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="geometric-bg"></div>
+            </div>
+        </section>
+
+        <section id="sobre-mi" class="about">
+            <div class="section-header">
+                <h2>Sobre Mí</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-container">
+                        <div class="profile-img"></div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>¿Quién soy?</h3>
+                    <p>Soy un desarrollador frontend apasionado por crear experiencias web visualmente atractivas y funcionales. Me especializo en HTML, CSS y JavaScript, con experiencia en frameworks modernos.</p>
+                    <p>Mi enfoque se centra en el diseño centrado en el usuario, la accesibilidad y el rendimiento para ofrecer sitios web que no solo se vean bien, sino que también funcionen perfectamente.</p>
+                    <div class="personal-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Manizales, Colombia</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>santimolinarag@gmail.com</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Tecnólogo en Sistemas Computacionales</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn primary">Descargar CV</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="proyectos" class="projects">
+            <div class="section-header">
+                <h2>Mis Proyectos</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="projects-grid">
+                <!-- Proyecto 1 -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Aplicación de Gestión de Tareas</h3>
+                        <p>Una aplicación web responsiva para gestionar tareas diarias con funcionalidades de arrastrar y soltar.</p>
+                        <div class="tech-stack">
+                            <span>React</span>
+                            <span>SCSS</span>
+                            <span>Firebase</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn small">Demo</a>
+                            <a href="#" class="btn small secondary">Código</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Proyecto 2 -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Plataforma E-commerce</h3>
+                        <p>Tienda en línea con catálogo de productos, carrito de compras y sistema de pagos integrado.</p>
+                        <div class="tech-stack">
+                            <span>Vue.js</span>
+                            <span>Tailwind CSS</span>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn small">Demo</a>
+                            <a href="#" class="btn small secondary">Código</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Proyecto 3 -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Dashboard Analítico</h3>
+                        <p>Panel de control interactivo que muestra datos y estadísticas mediante gráficos dinámicos.</p>
+                        <div class="tech-stack">
+                            <span>JavaScript</span>
+                            <span>D3.js</span>
+                            <span>CSS Grid</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn small">Demo</a>
+                            <a href="#" class="btn small secondary">Código</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="habilidades" class="skills">
+            <div class="section-header">
+                <h2>Mis Habilidades</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="skills-container">
+                <div class="skills-category">
+                    <h3>Frontend</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <i class="fab fa-html5"></i>
+                            <span>HTML5</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-css3-alt"></i>
+                            <span>CSS3/SCSS</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-js"></i>
+                            <span>JavaScript</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-react"></i>
+                            <span>React</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skills-category">
+                    <h3>Herramientas & Otros</h3>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <i class="fab fa-git-alt"></i>
+                            <span>Git</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fab fa-figma"></i>
+                            <span>Figma</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Responsive Design</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <i class="fas fa-universal-access"></i>
+                            <span>Accesibilidad Web</span>
+                            <div class="skill-level">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="contact">
+            <div class="section-header">
+                <h2>Contacto</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>¡Hablemos!</h3>
+                    <p>¿Tienes un proyecto en mente o simplemente quieres conectar? No dudes en enviarme un mensaje.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>santimolinarag@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+57 304 6123335</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Manizales, Colombia</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" name="user_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="user_email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Asunto</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn primary">Enviar Mensaje</button>
+                        <p id="form-status" class="form-status"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span>Dev</span>Portfolio
+            </div>
+            <p>© 2023 Mi Portafolio. Todos los derechos reservados.</p>
+            <div class="footer-social">
+                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html> 
