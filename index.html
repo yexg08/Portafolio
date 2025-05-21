@@ -11,9 +11,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Highlight.js para resaltado de sintaxis -->
+    <!-- Highlight.js para resaltado de sintaxis - Usando CDN con todas las dependencias -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
@@ -246,8 +249,6 @@
                     <div class="social-links">
                         <a href="https://github.com/yexg08" class="social-icon"><i class="fab fa-github"></i></a>
                         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="contact-form">
@@ -295,5 +296,28 @@
     <script src="js/proyectos/proyectos-data.js"></script>
     <script src="js/proyectos/visor-codigo.js"></script>
     <script src="js/proyectos/enlazar-proyectos.js"></script>
+    
+    <!-- Inicializar highlight.js -->
+    <script>
+        // Configurar highlight.js
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.hljs) {
+                // Configurar las opciones globales
+                hljs.configure({
+                    languages: ['html', 'css', 'javascript', 'xml'],
+                    ignoreUnescapedHTML: true
+                });
+
+                // Forzar la inicialización del resaltado para cualquier elemento existente
+                document.querySelectorAll('pre code').forEach(block => {
+                    hljs.highlightElement(block);
+                });
+
+                console.log('highlight.js inicializado correctamente');
+            } else {
+                console.error('No se pudo cargar highlight.js');
+            }
+        });
+    </script>
 </body>
 </html> 

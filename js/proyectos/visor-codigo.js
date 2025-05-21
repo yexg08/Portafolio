@@ -25,7 +25,7 @@ function mostrarCodigoProyecto(proyectoId) {
                     <ul class="codigo-archivos-lista">
                         ${proyecto.archivos.map((archivo, index) => `
                             <li data-index="${index}" class="${index === 0 ? 'activo' : ''}">
-                                <i class="fas ${obtenerIconoArchivo(archivo.nombre)}"></i>
+                                <i class="fab ${obtenerIconoArchivo(archivo.nombre)}"></i>
                                 ${archivo.nombre}
                             </li>
                         `).join('')}
@@ -46,7 +46,7 @@ function mostrarCodigoProyecto(proyectoId) {
                         <span class="codigo-archivo-path">${proyecto.archivos[0].path}</span>
                     </div>
                     <div class="codigo-visor">
-                        <pre><code id="codigo-contenedor">Cargando...</code></pre>
+                        <pre><code id="codigo-contenedor-${proyectoId}">Cargando...</code></pre>
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@ function mostrarCodigoProyecto(proyectoId) {
     document.body.style.overflow = 'hidden';
     
     // Cargar el contenido del primer archivo
-    cargarContenidoArchivo(proyecto.archivos[0].path);
+    cargarContenidoArchivo(proyecto.archivos[0].path, modal, proyectoId);
     
     // Event Listeners
     const cerrarBtn = modal.querySelector('.codigo-modal-cerrar');
@@ -96,7 +96,7 @@ function mostrarCodigoProyecto(proyectoId) {
             modal.querySelector('.codigo-archivo-path').textContent = archivo.path;
             
             // Cargar el contenido del archivo
-            cargarContenidoArchivo(archivo.path);
+            cargarContenidoArchivo(archivo.path, modal, proyectoId);
         });
     });
 }
@@ -117,11 +117,37 @@ function obtenerIconoArchivo(nombreArchivo) {
     }
 }
 
+// Función para obtener el lenguaje según la extensión
+function obtenerLenguaje(nombreArchivo) {
+    const extension = nombreArchivo.split('.').pop().toLowerCase();
+    
+    switch (extension) {
+        case 'html':
+            return 'html';
+        case 'css':
+            return 'css';
+        case 'js':
+            return 'javascript';
+        default:
+            return 'plaintext';
+    }
+}
+
 // Función para cargar el contenido de un archivo
-async function cargarContenidoArchivo(ruta) {
-    const contenedor = document.getElementById('codigo-contenedor');
+async function cargarContenidoArchivo(ruta, modal, proyectoId) {
+    // Obtener el contenedor de código específico para este modal
+    const contenedorId = `codigo-contenedor-${proyectoId}`;
+    const contenedor = document.getElementById(contenedorId);
+    
+    if (!contenedor) {
+        console.error(`No se encontró el contenedor de código con id: ${contenedorId}`);
+        return;
+    }
     
     try {
+        // Mostrar indicador de carga
+        contenedor.textContent = 'Cargando...';
+        
         const respuesta = await fetch(ruta);
         
         if (!respuesta.ok) {
@@ -130,12 +156,26 @@ async function cargarContenidoArchivo(ruta) {
         
         const texto = await respuesta.text();
         
-        // Escapar el HTML para mostrarlo como texto plano
+        // Determinar el lenguaje según la extensión del archivo
+        const lenguaje = obtenerLenguaje(ruta);
+        
+        // Aplicar la clase de lenguaje al elemento
+        contenedor.className = ''; // Limpiar clases anteriores
+        contenedor.classList.add(`language-${lenguaje}`);
+        
+        // Establecer el contenido del código
         contenedor.textContent = texto;
         
-        // Aplicar resaltado de sintaxis si hay una librería disponible
+        // Forzar a highlight.js a procesar el código
         if (window.hljs) {
             hljs.highlightElement(contenedor);
+            
+            // En algunos casos puede ser necesario forzar una actualización
+            setTimeout(() => {
+                hljs.highlightElement(contenedor);
+            }, 50);
+        } else {
+            console.warn('highlight.js no está disponible');
         }
     } catch (error) {
         console.error('Error al cargar el archivo:', error);

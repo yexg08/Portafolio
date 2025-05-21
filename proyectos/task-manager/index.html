@@ -24,13 +24,17 @@
         </header>
 
         <main>
-            <div class="sidebar">
+            <!-- Sidebar overlay (visible solo en móvil) -->
+            <div class="sidebar-overlay" id="sidebar-overlay"></div>
+            
+            <!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
                 <nav>
                     <ul>
-                        <li class="active"><i class="fas fa-home"></i> Dashboard</li>
-                        <li><i class="fas fa-calendar-alt"></i> Calendario</li>
-                        <li><i class="fas fa-chart-pie"></i> Estadísticas</li>
-                        <li><i class="fas fa-cog"></i> Configuración</li>
+                        <li class="active"><i class="fas fa-home"></i> <span>Dashboard</span></li>
+                        <li><i class="fas fa-calendar-alt"></i> <span>Calendario</span></li>
+                        <li><i class="fas fa-chart-pie"></i> <span>Estadísticas</span></li>
+                        <li><i class="fas fa-cog"></i> <span>Configuración</span></li>
                     </ul>
                 </nav>
                 <div class="task-filters">
@@ -96,6 +100,11 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Botón para mostrar/ocultar sidebar en móvil -->
+            <button class="toggle-sidebar" id="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
         </main>
     </div>
 

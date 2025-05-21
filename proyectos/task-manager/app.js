@@ -1,4 +1,4 @@
-// Configuración de Firebase
+// Configuración de Firebase (mantenida por compatibilidad pero no la usaremos)
 const firebaseConfig = {
     apiKey: "AIzaSyBL2vCn-ED3-bZ17WwbjsdvSc7Bp6ryAGA",
     authDomain: "taskflow-demo.firebaseapp.com",
@@ -8,9 +8,15 @@ const firebaseConfig = {
     appId: "1:254157256564:web:6f4b3b1e50ef0e8f32a4ce"
 };
 
-// Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Inicializar Firebase (mantenido por compatibilidad pero no lo usaremos)
+// En su lugar, usaremos localStorage para un funcionamiento sin conexión garantizado
+try {
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    console.log("Firebase inicializado, pero usaremos localStorage para almacenamiento local");
+} catch (error) {
+    console.log("Firebase no está disponible, usando localStorage");
+}
 
 // Referencias a elementos del DOM
 const modal = document.getElementById('task-modal');
@@ -34,15 +40,46 @@ const pendingColCountEl = document.getElementById('pending-col-count');
 const inProgressColCountEl = document.getElementById('in-progress-col-count');
 const completedColCountEl = document.getElementById('completed-col-count');
 
+// Elementos para el sidebar responsive
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+const toggleSidebarBtn = document.getElementById('toggle-sidebar');
+
 // Estado de la aplicación
 let tasks = [];
 let editingTaskId = null;
+
+// LocalStorage - Clave para guardar tareas
+const TASKS_STORAGE_KEY = 'taskflow_tasks';
 
 // Event Listeners
 newTaskBtn.addEventListener('click', openTaskModal);
 closeBtn.addEventListener('click', closeTaskModal);
 cancelTaskBtn.addEventListener('click', closeTaskModal);
 taskForm.addEventListener('submit', saveTask);
+
+// Funcionalidad para el sidebar responsive
+if (toggleSidebarBtn && sidebar && sidebarOverlay) {
+    // Mostrar/ocultar sidebar al hacer clic en el botón
+    toggleSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        sidebarOverlay.classList.toggle('active');
+    });
+    
+    // Ocultar sidebar al hacer clic fuera
+    sidebarOverlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+    });
+    
+    // Cerrar sidebar al cambiar el tamaño de la ventana (si está en modo desktop)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        }
+    });
+}
 
 // Mostrar u ocultar el modal
 function openTaskModal(e) {
@@ -85,8 +122,24 @@ window.addEventListener('click', (e) => {
     }
 });
 
+// Generar un ID único para nuevas tareas
+function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
+
+// Guardar tareas en localStorage
+function saveTasksToLocalStorage() {
+    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
+}
+
+// Cargar tareas desde localStorage
+function loadTasksFromLocalStorage() {
+    const storedTasks = localStorage.getItem(TASKS_STORAGE_KEY);
+    return storedTasks ? JSON.parse(storedTasks) : null;
+}
+
 // Guardar una tarea
-async function saveTask(e) {
+function saveTask(e) {
     e.preventDefault();
     
     const title = document.getElementById('task-title').value;
@@ -95,107 +148,154 @@ async function saveTask(e) {
     const priority = document.getElementById('task-priority').value;
     const status = document.getElementById('task-status').value;
     
+    // Validación básica
+    if (!title.trim()) {
+        alert('Por favor ingresa un título para la tarea');
+        return;
+    }
+    
     try {
         // Si estamos editando una tarea existente
         if (editingTaskId) {
-            await db.collection('tasks').doc(editingTaskId).update({
-                title,
-                description,
-                dueDate,
-                priority,
-                status,
-                updatedAt: new Date()
-            });
+            // Encontrar y actualizar la tarea en el array
+            const taskIndex = tasks.findIndex(t => t.id === editingTaskId);
+            if (taskIndex !== -1) {
+                tasks[taskIndex] = {
+                    ...tasks[taskIndex],
+                    title,
+                    description,
+                    dueDate,
+                    priority,
+                    status,
+                    updatedAt: new Date().toISOString()
+                };
+            }
         } else {
             // Si estamos creando una nueva tarea
-            await db.collection('tasks').add({
+            const newTask = {
+                id: generateUniqueId(),
                 title,
                 description,
                 dueDate,
                 priority,
                 status,
-                createdAt: new Date(),
-                updatedAt: new Date()
-            });
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            tasks.unshift(newTask); // Agregar al inicio para mostrar lo más reciente primero
         }
         
+        // Guardar en localStorage
+        saveTasksToLocalStorage();
+        
+        // Actualizar la interfaz
         closeTaskModal();
-        loadTasks();
+        renderTasks();
+        updateCounters();
+        
+        // Mostrar notificación de éxito
+        showNotification(editingTaskId ? 'Tarea actualizada correctamente' : 'Tarea creada correctamente');
     } catch (error) {
         console.error('Error al guardar la tarea:', error);
         alert('Hubo un error al guardar la tarea. Por favor, inténtalo de nuevo.');
     }
 }
 
-// Cargar las tareas desde Firebase
-async function loadTasks() {
-    try {
-        const snapshot = await db.collection('tasks').orderBy('createdAt', 'desc').get();
-        
-        tasks = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-        
+// Mostrar notificación temporal
+function showNotification(message) {
+    // Crear elemento de notificación
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    
+    // Añadir al DOM
+    document.body.appendChild(notification);
+    
+    // Mostrar con animación
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Cargar las tareas
+function loadTasks() {
+    // Intentar cargar desde localStorage primero
+    const storedTasks = loadTasksFromLocalStorage();
+    
+    if (storedTasks && storedTasks.length > 0) {
+        tasks = storedTasks;
         renderTasks();
         updateCounters();
-    } catch (error) {
-        console.error('Error al cargar las tareas:', error);
-        
-        // Usar datos de ejemplo si Firebase falla
+    } else {
+        // Si no hay tareas guardadas, cargar datos de ejemplo
         loadSampleTasks();
     }
 }
 
-// Cargar datos de ejemplo si Firebase no está disponible
+// Cargar datos de ejemplo
 function loadSampleTasks() {
-    tasks = [
-        {
-            id: '1',
-            title: 'Diseñar página principal',
-            description: 'Crear diseño responsive para la página de inicio',
-            dueDate: '2025-05-30',
-            priority: 'high',
-            status: 'pending',
-            createdAt: new Date()
-        },
-        {
-            id: '2',
-            title: 'Implementar autenticación',
-            description: 'Configurar sistema de login con Google y email',
-            dueDate: '2025-06-05',
-            priority: 'medium',
-            status: 'in-progress',
-            createdAt: new Date()
-        },
-        {
-            id: '3',
-            title: 'Optimizar imágenes',
-            description: 'Comprimir y optimizar todas las imágenes del sitio',
-            dueDate: '2025-05-25',
-            priority: 'low',
-            status: 'completed',
-            createdAt: new Date()
-        },
-        {
-            id: '4',
-            title: 'Corrección de bugs en formulario',
-            description: 'Solucionar problemas de validación en el formulario de contacto',
-            dueDate: '2025-05-28',
-            priority: 'high',
-            status: 'in-progress',
-            createdAt: new Date()
-        },
-        {
-            id: '5',
-            title: 'Reunión con cliente',
-            description: 'Preparar presentación para la reunión de seguimiento',
-            dueDate: '2025-05-27',
-            priority: 'medium',
-            status: 'pending',
-            createdAt: new Date()
-        }
-    ];
+    // Solo cargar datos de ejemplo si no hay tareas existentes
+    if (tasks.length === 0) {
+        tasks = [
+            {
+                id: generateUniqueId(),
+                title: 'Diseñar página principal',
+                description: 'Crear diseño responsive para la página de inicio',
+                dueDate: '2025-05-30',
+                priority: 'high',
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: generateUniqueId(),
+                title: 'Implementar autenticación',
+                description: 'Configurar sistema de login con Google y email',
+                dueDate: '2025-06-05',
+                priority: 'medium',
+                status: 'in-progress',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: generateUniqueId(),
+                title: 'Optimizar imágenes',
+                description: 'Comprimir y optimizar todas las imágenes del sitio',
+                dueDate: '2025-05-25',
+                priority: 'low',
+                status: 'completed',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: generateUniqueId(),
+                title: 'Corrección de bugs en formulario',
+                description: 'Solucionar problemas de validación en el formulario de contacto',
+                dueDate: '2025-05-28',
+                priority: 'high',
+                status: 'in-progress',
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: generateUniqueId(),
+                title: 'Reunión con cliente',
+                description: 'Preparar presentación para la reunión de seguimiento',
+                dueDate: '2025-05-27',
+                priority: 'medium',
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            }
+        ];
+        
+        // Guardar en localStorage
+        saveTasksToLocalStorage();
+    }
     
     renderTasks();
     updateCounters();
@@ -293,17 +393,23 @@ function createTaskElement(task) {
 }
 
 // Eliminar una tarea
-async function deleteTask(taskId) {
+function deleteTask(taskId) {
     try {
-        await db.collection('tasks').doc(taskId).delete();
-        loadTasks();
-    } catch (error) {
-        console.error('Error al eliminar la tarea:', error);
-        
-        // Si Firebase falla, eliminar localmente
+        // Filtrar la tarea del array
         tasks = tasks.filter(task => task.id !== taskId);
+        
+        // Guardar en localStorage
+        saveTasksToLocalStorage();
+        
+        // Actualizar la interfaz
         renderTasks();
         updateCounters();
+        
+        // Mostrar notificación
+        showNotification('Tarea eliminada correctamente');
+    } catch (error) {
+        console.error('Error al eliminar la tarea:', error);
+        alert('Hubo un error al eliminar la tarea. Por favor, inténtalo de nuevo.');
     }
 }
 
@@ -385,25 +491,26 @@ function getDragAfterElement(container, y) {
 }
 
 // Actualizar el estado de una tarea cuando se arrastra a otra columna
-async function updateTaskStatus(taskId, newStatus) {
+function updateTaskStatus(taskId, newStatus) {
     try {
-        await db.collection('tasks').doc(taskId).update({
-            status: newStatus,
-            updatedAt: new Date()
-        });
-        loadTasks();
+        // Encontrar y actualizar la tarea en el array
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+        if (taskIndex !== -1) {
+            tasks[taskIndex] = {
+                ...tasks[taskIndex],
+                status: newStatus,
+                updatedAt: new Date().toISOString()
+            };
+            
+            // Guardar en localStorage
+            saveTasksToLocalStorage();
+            
+            // Actualizar contadores
+            updateCounters();
+        }
     } catch (error) {
         console.error('Error al actualizar el estado de la tarea:', error);
-        
-        // Si Firebase falla, actualizar localmente
-        tasks = tasks.map(task => {
-            if (task.id === taskId) {
-                return { ...task, status: newStatus };
-            }
-            return task;
-        });
-        
-        updateCounters();
+        alert('Hubo un error al actualizar el estado de la tarea. Por favor, inténtalo de nuevo.');
     }
 }
 
@@ -412,6 +519,12 @@ const filterItems = document.querySelectorAll('.filter-item');
 filterItems.forEach(item => {
     item.addEventListener('click', () => {
         const filter = item.dataset.filter;
+        
+        // Si estamos en móvil, cerrar el sidebar
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        }
         
         // Filtrar las tareas
         if (filter === 'all') {

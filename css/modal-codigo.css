@@ -116,8 +116,23 @@
     color: #6c5ce7;
 }
 
+/* Estilos específicos para los iconos de archivo */
 .codigo-archivos-lista li i {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    width: 1.2rem;
+    text-align: center;
+}
+
+.codigo-archivos-lista li i.fa-html5 {
+    color: #e34c26;
+}
+
+.codigo-archivos-lista li i.fa-css3-alt {
+    color: #2965f1;
+}
+
+.codigo-archivos-lista li i.fa-js {
+    color: #f0db4f;
 }
 
 .codigo-info {
@@ -182,6 +197,7 @@
 .codigo-visor pre {
     margin: 0;
     padding: 0;
+    background-color: transparent !important;
 }
 
 .codigo-visor code {
@@ -191,6 +207,13 @@
     line-height: 1.5;
     tab-size: 4;
     white-space: pre;
+    background-color: transparent !important;
+}
+
+/* Asegurar que highlight.js no sobreescriba nuestros estilos */
+.hljs {
+    background-color: transparent !important;
+    padding: 0 !important;
 }
 
 /* Estilos responsive */
