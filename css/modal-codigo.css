@@ -1,0 +1,219 @@
+/* Estilos para el modal de visualización de código */
+.codigo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.codigo-modal-contenido {
+    width: 90%;
+    height: 85%;
+    background-color: #1e1e2e;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.codigo-modal-header {
+    padding: 1rem 1.5rem;
+    background-color: #292a3e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3a3b53;
+}
+
+.codigo-modal-header h2 {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.codigo-modal-cerrar {
+    background: none;
+    border: none;
+    color: #9a9ea3;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.codigo-modal-cerrar:hover {
+    color: #ff6b6b;
+}
+
+.codigo-modal-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.codigo-sidebar {
+    width: 250px;
+    background-color: #232336;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #3a3b53;
+}
+
+.codigo-sidebar h3 {
+    color: #9a9ea3;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 0.8rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.codigo-archivos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.codigo-archivos-lista li {
+    padding: 0.5rem 0.8rem;
+    border-radius: 5px;
+    color: #d1d5db;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.codigo-archivos-lista li:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.codigo-archivos-lista li.activo {
+    background-color: rgba(108, 92, 231, 0.15);
+    color: #6c5ce7;
+}
+
+.codigo-archivos-lista li i {
+    font-size: 1rem;
+}
+
+.codigo-info {
+    margin-top: auto;
+}
+
+.codigo-tecnologias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tech-tag {
+    background-color: rgba(108, 92, 231, 0.15);
+    color: #6c5ce7;
+    padding: 0.3rem 0.6rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.codigo-descripcion {
+    color: #9a9ea3;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.codigo-contenido {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.codigo-header {
+    padding: 0.8rem 1.2rem;
+    background-color: #292a3e;
+    border-bottom: 1px solid #3a3b53;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.codigo-archivo-actual {
+    color: #fff;
+    font-weight: 500;
+}
+
+.codigo-archivo-path {
+    color: #9a9ea3;
+    font-size: 0.8rem;
+}
+
+.codigo-visor {
+    flex: 1;
+    overflow: auto;
+    padding: 1rem;
+    background-color: #1a1b29;
+}
+
+.codigo-visor pre {
+    margin: 0;
+    padding: 0;
+}
+
+.codigo-visor code {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    tab-size: 4;
+    white-space: pre;
+}
+
+/* Estilos responsive */
+@media (max-width: 768px) {
+    .codigo-modal-contenido {
+        width: 95%;
+        height: 90%;
+    }
+    
+    .codigo-modal-body {
+        flex-direction: column;
+    }
+    
+    .codigo-sidebar {
+        width: 100%;
+        max-height: 200px;
+        overflow-y: auto;
+        border-right: none;
+        border-bottom: 1px solid #3a3b53;
+        padding: 0.8rem;
+    }
+    
+    .codigo-info {
+        display: none;
+    }
+} 

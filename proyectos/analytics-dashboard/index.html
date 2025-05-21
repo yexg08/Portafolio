@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataViz | Dashboard Analítico</title>
+    
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Data<span>Viz</span></h1>
+                </div>
+                <button id="collapse-sidebar" class="collapse-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Análisis</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-users"></i>
+                            <span>Audiencia</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-tasks"></i>
+                            <span>Campañas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Reportes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-cog"></i>
+                            <span>Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                    </div>
+                    <div class="user-details">
+                        <h3>Santiago M.</h3>
+                        <p>Administrador</p>
+                    </div>
+                </div>
+                <button class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Salir</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h2>Dashboard de Rendimiento</h2>
+                    <p class="date">Actualizado: <span id="current-date">21 Mayo, 2025</span></p>
+                </div>
+                
+                <div class="header-right">
+                    <div class="date-range">
+                        <button class="date-selector">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>Últimos 30 días</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="btn-secondary">
+                            <i class="fas fa-download"></i>
+                            <span>Exportar</span>
+                        </button>
+                        <button class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            <span>Nuevo Reporte</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- KPIs -->
+            <section class="kpi-cards">
+                <div class="kpi-card">
+                    <div class="kpi-icon users">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <h3>Usuarios Totales</h3>
+                        <div class="kpi-value">
+                            <span class="number">85,248</span>
+                            <span class="change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                12.5%
+                            </span>
+                        </div>
+                        <p class="kpi-period">vs mes anterior</p>
+                    </div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-icon sessions">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <h3>Sesiones</h3>
+                        <div class="kpi-value">
+                            <span class="number">248,561</span>
+                            <span class="change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                8.2%
+                            </span>
+                        </div>
+                        <p class="kpi-period">vs mes anterior</p>
+                    </div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-icon bounce">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <h3>Tasa de Rebote</h3>
+                        <div class="kpi-value">
+                            <span class="number">36.8%</span>
+                            <span class="change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                2.4%
+                            </span>
+                        </div>
+                        <p class="kpi-period">vs mes anterior</p>
+                    </div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-icon conversion">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <h3>Conversiones</h3>
+                        <div class="kpi-value">
+                            <span class="number">6,284</span>
+                            <span class="change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                16.8%
+                            </span>
+                        </div>
+                        <p class="kpi-period">vs mes anterior</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Charts -->
+            <section class="chart-grid">
+                <div class="chart-card large">
+                    <div class="chart-header">
+                        <h3>Tendencia de Usuarios</h3>
+                        <div class="chart-actions">
+                            <button class="chart-action-btn active" data-view="week">Semana</button>
+                            <button class="chart-action-btn" data-view="month">Mes</button>
+                            <button class="chart-action-btn" data-view="year">Año</button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="users-trend-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Usuarios por Dispositivo</h3>
+                        <div class="dropdown">
+                            <button class="dropdown-btn">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <div id="device-donut-chart" class="donut-chart"></div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color mobile"></span>
+                                <span class="legend-label">Móvil</span>
+                                <span class="legend-value">68%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color desktop"></span>
+                                <span class="legend-label">Escritorio</span>
+                                <span class="legend-value">24%</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color tablet"></span>
+                                <span class="legend-label">Tablet</span>
+                                <span class="legend-value">8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Fuentes de Tráfico</h3>
+                        <div class="dropdown">
+                            <button class="dropdown-btn">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="traffic-sources-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Actividad por Hora</h3>
+                        <div class="dropdown">
+                            <button class="dropdown-btn">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <div id="hourly-activity-chart"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-card large">
+                    <div class="chart-header">
+                        <h3>Páginas Más Visitadas</h3>
+                        <button class="view-all-btn">
+                            Ver todas
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="chart-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Página</th>
+                                    <th>Visitas</th>
+                                    <th>Tiempo Promedio</th>
+                                    <th>Tasa de Rebote</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="page-cell">
+                                        <i class="fas fa-file"></i>
+                                        <span>Página de inicio</span>
+                                    </td>
+                                    <td>45,328</td>
+                                    <td>2m 15s</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 24%"></div>
+                                            <span>24%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="page-cell">
+                                        <i class="fas fa-file"></i>
+                                        <span>Catálogo de productos</span>
+                                    </td>
+                                    <td>36,485</td>
+                                    <td>3m 42s</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 18%"></div>
+                                            <span>18%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="page-cell">
+                                        <i class="fas fa-file"></i>
+                                        <span>Página de contacto</span>
+                                    </td>
+                                    <td>28,592</td>
+                                    <td>1m 56s</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 32%"></div>
+                                            <span>32%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="page-cell">
+                                        <i class="fas fa-file"></i>
+                                        <span>Blog</span>
+                                    </td>
+                                    <td>21,975</td>
+                                    <td>4m 12s</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 15%"></div>
+                                            <span>15%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="page-cell">
+                                        <i class="fas fa-file"></i>
+                                        <span>Sobre nosotros</span>
+                                    </td>
+                                    <td>18,264</td>
+                                    <td>2m 34s</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress" style="width: 28%"></div>
+                                            <span>28%</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html> 

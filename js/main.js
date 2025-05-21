@@ -1,4 +1,3 @@
-// Esperar a que se cargue el DOM
 document.addEventListener('DOMContentLoaded', () => {
     // Referencias a elementos del DOM
     const header = document.querySelector('header');
@@ -11,9 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
     const formStatus = document.getElementById('form-status');
 
-    // Inicializar EmailJS
     (function() {
-        // Inicializando EmailJS - misma configuración que funcionó en prueba
         emailjs.init("n_6kBRmjGujXpQE5d");
     })();
 
@@ -31,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cursor.style.transform = 'translate(-50%, -50%) scale(1)';
     });
 
-    // Efecto de hover para enlaces y botones
     const hoverElements = document.querySelectorAll('a, button, .project-card, .skill-item, .social-icon');
     
     hoverElements.forEach(element => {
@@ -158,8 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 user_email: this.querySelector('#email').value,
                 subject: this.querySelector('#subject').value,
                 message: this.querySelector('#message').value,
-                to_email: 'santimolinarag@gmail.com', // Tu correo personal
-                from_name: 'DevPortfolio' // Nombre remitente
+                to_email: 'santimolinarag@gmail.com',
+                from_name: 'DevPortfolio'
             };
             
             try {
@@ -175,8 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         submitBtn.disabled = false;
                         submitBtn.textContent = originalText;
                     }, function(error) {
-                        // Error más detallado
-                        // console.error('Error detallado:', error);
                         formStatus.textContent = 'Error: ' + (error.text || JSON.stringify(error));
                         formStatus.className = 'form-status error';
                         formStatus.style.display = 'block';
@@ -185,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         submitBtn.textContent = originalText;
                     });
             } catch (e) {
-                // console.error('Error al intentar enviar el formulario:', e);
                 formStatus.textContent = 'Error en la aplicación: ' + e.message;
                 formStatus.className = 'form-status error';
                 formStatus.style.display = 'block';
@@ -198,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // console.error('Formulario de contacto no encontrado');
     }
 
-    // Cargar animaciones después de que la página esté lista
     setTimeout(() => {
         document.body.classList.add('loaded');
     }, 500);
@@ -210,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Agregar estilos CSS adicionales para animaciones
+// estilos CSS adicionales para animaciones
 const style = document.createElement('style');
 style.textContent = `
     .animate-on-scroll {

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow | Gestión de Tareas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <h1>TaskFlow</h1>
+            </div>
+            <div class="user-info">
+                <span>Santiago Molina</span>
+                <div class="user-avatar">SM</div>
+            </div>
+        </header>
+
+        <main>
+            <div class="sidebar">
+                <nav>
+                    <ul>
+                        <li class="active"><i class="fas fa-home"></i> Dashboard</li>
+                        <li><i class="fas fa-calendar-alt"></i> Calendario</li>
+                        <li><i class="fas fa-chart-pie"></i> Estadísticas</li>
+                        <li><i class="fas fa-cog"></i> Configuración</li>
+                    </ul>
+                </nav>
+                <div class="task-filters">
+                    <h3>Filtros</h3>
+                    <div class="filter-item" data-filter="all">
+                        <span class="color-dot all"></span>
+                        <span>Todas</span>
+                        <span class="task-count" id="all-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="pending">
+                        <span class="color-dot pending"></span>
+                        <span>Pendientes</span>
+                        <span class="task-count" id="pending-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="in-progress">
+                        <span class="color-dot in-progress"></span>
+                        <span>En Progreso</span>
+                        <span class="task-count" id="in-progress-count">0</span>
+                    </div>
+                    <div class="filter-item" data-filter="completed">
+                        <span class="color-dot completed"></span>
+                        <span>Completadas</span>
+                        <span class="task-count" id="completed-count">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="content-header">
+                    <h2>Mis Tareas</h2>
+                    <button id="new-task-btn" class="btn primary"><i class="fas fa-plus"></i> Nueva Tarea</button>
+                </div>
+
+                <div class="task-columns">
+                    <div class="task-column" id="pending-column">
+                        <div class="column-header">
+                            <h3>Pendientes</h3>
+                            <span class="task-count" id="pending-col-count">0</span>
+                        </div>
+                        <div class="task-list" id="pending-tasks">
+                            <!-- Las tareas se añadirán dinámicamente aquí -->
+                        </div>
+                    </div>
+
+                    <div class="task-column" id="in-progress-column">
+                        <div class="column-header">
+                            <h3>En Progreso</h3>
+                            <span class="task-count" id="in-progress-col-count">0</span>
+                        </div>
+                        <div class="task-list" id="in-progress-tasks">
+                            <!-- Las tareas se añadirán dinámicamente aquí -->
+                        </div>
+                    </div>
+
+                    <div class="task-column" id="completed-column">
+                        <div class="column-header">
+                            <h3>Completadas</h3>
+                            <span class="task-count" id="completed-col-count">0</span>
+                        </div>
+                        <div class="task-list" id="completed-tasks">
+                            <!-- Las tareas se añadirán dinámicamente aquí -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para nueva tarea -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Nueva Tarea</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <div class="form-group">
+                        <label for="task-title">Título</label>
+                        <input type="text" id="task-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-description">Descripción</label>
+                        <textarea id="task-description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-due-date">Fecha límite</label>
+                        <input type="date" id="task-due-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-priority">Prioridad</label>
+                        <select id="task-priority">
+                            <option value="low">Baja</option>
+                            <option value="medium" selected>Media</option>
+                            <option value="high">Alta</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-status">Estado</label>
+                        <select id="task-status">
+                            <option value="pending" selected>Pendiente</option>
+                            <option value="in-progress">En Progreso</option>
+                            <option value="completed">Completada</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn secondary" id="cancel-task">Cancelar</button>
+                        <button type="submit" class="btn primary" id="save-task">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html> 
