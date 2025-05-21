@@ -67,7 +67,8 @@ img {
     display: block;
 }
 
-/* Cursor personalizado */
+/* Cursor personalizado - Comentado para desactivarlo */
+/*
 .cursor {
     width: 20px;
     height: 20px;
@@ -80,6 +81,7 @@ img {
     transition: transform 0.1s ease;
     z-index: 9999;
 }
+*/
 
 /* Header y navegación */
 header {

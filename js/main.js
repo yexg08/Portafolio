@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     const navLinksItems = document.querySelectorAll('.nav-links li');
-    const cursor = document.querySelector('.cursor');
+    // const cursor = document.querySelector('.cursor'); // Comentado para desactivar el cursor personalizado
     const sections = document.querySelectorAll('section');
     const navItems = document.querySelectorAll('.nav-links a');
     const contactForm = document.getElementById('contactForm');
@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         emailjs.init("n_6kBRmjGujXpQE5d");
     })();
 
-    // Cursor personalizado
+    // Cursor personalizado - Todo comentado para desactivarlo
+    /*
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = `${e.clientX}px`;
         cursor.style.top = `${e.clientY}px`;
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cursor.style.mixBlendMode = 'difference';
         });
     });
+    */
 
     // Navegación móvil - Menú hamburguesa
     hamburger.addEventListener('click', () => {
