@@ -357,11 +357,46 @@ section {
 }
 
 /* Sección Sobre Mí */
+.about {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Figuras geométricas de fondo */
+.about::before,
+.about::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    opacity: 0.1;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.about::before {
+    background: linear-gradient(45deg, var(--accent-purple), var(--accent-pink));
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    right: 5%;
+    animation: morphing 10s ease-in-out infinite alternate;
+}
+
+.about::after {
+    background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+    width: 150px;
+    height: 150px;
+    bottom: 10%;
+    left: 5%;
+    animation: morphing 8s ease-in-out infinite alternate-reverse;
+}
+
 .about-content {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 50px;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 .about-image {
@@ -372,20 +407,47 @@ section {
     position: relative;
     width: 100%;
     padding-bottom: 100%;
-    border-radius: 20px;
+    border-radius: 50%;
     overflow: hidden;
+}
+
+/* Borde animado con gradiente para la foto de perfil */
+.image-container::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--accent-purple), var(--accent-pink), var(--accent-cyan));
+    background-size: 300% 300%;
+    animation: gradient-border-animation 6s ease infinite;
+    z-index: -1;
+}
+
+@keyframes gradient-border-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .profile-img {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://via.placeholder.com/500x500/252525/6C5CE7?text=Foto+Perfil');
+    top: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    background-image: url('../foto/istockphoto-1090878494-612x612.jpg');
     background-size: cover;
     background-position: center;
-    border-radius: 20px;
+    border-radius: 50%;
     transition: var(--transition);
 }
 
@@ -803,5 +865,59 @@ footer {
     
     .project-card {
         min-height: auto;
+    }
+}
+
+/* Elementos decorativos para la sección Sobre Mí */
+.about-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.about-shape {
+    position: absolute;
+    opacity: 0.05;
+    border-radius: 50%;
+}
+
+.shape1 {
+    background: linear-gradient(45deg, var(--accent-purple), var(--accent-pink));
+    width: 120px;
+    height: 120px;
+    top: 15%;
+    right: 15%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.shape2 {
+    background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+    width: 80px;
+    height: 80px;
+    top: 60%;
+    left: 10%;
+    animation: float 6s ease-in-out infinite reverse;
+}
+
+.shape3 {
+    background: linear-gradient(45deg, var(--accent-pink), var(--accent-cyan));
+    width: 60px;
+    height: 60px;
+    bottom: 10%;
+    right: 10%;
+    animation: float 10s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(10deg);
     }
 } 
